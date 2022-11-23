@@ -1,4 +1,4 @@
-# Проект "Олимпиадные образы"
+# Тестовое задание RickAndMorty
 
 ### Инструкция по установке и запуска проекта:
 
@@ -31,3 +31,7 @@ npm start
 ## GitHub pages
 
 https://rasabirov.github.io/rickandmorty
+
+## API
+
+https://rickandmortyapi.com/
