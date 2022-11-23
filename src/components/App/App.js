@@ -6,21 +6,33 @@ import { SearchContext } from '../../context/searchContext';
 import axios from 'axios';
 import { Route, Routes } from 'react-router-dom';
 import { AboutPage } from '../AboutPage/AboutPage';
+import { Pagination } from '../Pagination/Pagination';
 
 export const App = () => {
 	const [cards, setCards] = React.useState([]);
 	const [searchValue, setSearchValue] = React.useState('');
 	const [genderValue, setGenderValue] = React.useState('');
 
+	const [currentPage, setCurrentPage] = React.useState(1);
+	const [pageCount, setPageCount] = React.useState(0);
+
 	React.useEffect(() => {
 		const search = searchValue ? `&name=${searchValue}` : '';
 		const gender = genderValue ? `&gender=${genderValue}` : '';
 
 		axios
-			.get(`https://rickandmortyapi.com/api/character/?name=${search}${gender}`)
-			.then((res) => setCards(res.data.results))
+			.get(`https://rickandmortyapi.com/api/character/?page=${currentPage}${search}${gender}`)
+			.then((res) => {
+				// console.log(res.data.info.count);
+				setCards(res.data.results);
+				setPageCount(res.data.info.pages);
+			})
 			.catch((err) => console.log(err, 'Ошибка загрузки данных'));
-	}, [searchValue, genderValue]);
+	}, [searchValue, genderValue, currentPage]);
+
+	function onChangePage(number) {
+		setCurrentPage(number);
+	}
 
 	return (
 		<div className='App'>
@@ -43,6 +55,9 @@ export const App = () => {
 						/>
 						<Route path='/:id' element={<AboutPage />} />
 					</Routes>
+					<div className='paginate__container'>
+						<Pagination pageCount={pageCount} onChangePage={onChangePage} />
+					</div>
 				</Wrapper>
 			</SearchContext.Provider>
 		</div>
