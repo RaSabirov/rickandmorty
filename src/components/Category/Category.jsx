@@ -7,14 +7,15 @@ export const Category = ({ onClickCategory, genderValue }) => {
 	const categories = ['male', 'female', 'unknow'];
 	const [isOpen, setIsOpen] = React.useState(false);
 	const [active, setActive] = React.useState(false);
+	const ref = React.createRef();
 
 	function clearFilter() {
 		window.location.reload(false);
 	}
 
-	function handleClickCategory() {
+	function handleClickCategory(e) {
 		setActive(!active);
-		console.log(active);
+		console.log(ref);
 	}
 
 	return (
@@ -31,7 +32,8 @@ export const Category = ({ onClickCategory, genderValue }) => {
 						<ul>
 							{categories.map((status, i) => (
 								<li
-									className={active === i ? 'active' : ''}
+									ref={ref}
+									className={genderValue === status ? 'active' : ''}
 									key={status}
 									onClick={() => {
 										onClickCategory(status);
